@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Link Dashboard</h1>
+    <a href="{{ url_for('add_link') }}" class="btn btn-success">Add New Link</a>
+    <a href="{{ url_for('add_category') }}" class="btn btn-info">Add New Category</a>
+
+    <h3 class="mt-4">Categories</h3>
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">{{ category.name }}</div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for link in category.links %}
+                                <li class="list-group-item">
+                                    <strong>{{ link.title }}</strong><br>
+                                    <a href="{{ link.url }}" target="_blank">{{ link.url }}</a><br>
+                                    <small>{{ link.description }}</small><br>
+                                    <a href="{{ url_for('edit_link', link_id=link.id) }}" class="btn btn-warning btn-sm mt-2">Edit</a>
+                                    <form method="POST" action="{{ url_for('move_link', link_id=link.id) }}" class="mt-2">
+                                        <button class="btn btn-primary btn-sm">Move</button>
+                                    </form>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

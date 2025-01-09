@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% if link %}Edit{% else %}Add{% endif %} Link</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Link Title</label>
+            <input type="text" name="title" class="form-control" value="{{ link.title if link else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="url" class="form-label">URL</label>
+            <input type="url" name="url" class="form-control" value="{{ link.url if link else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" class="form-control">{{ link.description if link else '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select name="category" class="form-select">
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if link and link.category_id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">{% if link %}Update{% else %}Add{% endif %} Link</button>
+    </form>
+{% endblock %}
